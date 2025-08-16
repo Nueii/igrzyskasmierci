@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igrzyska Śmierci - Serwer Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            background-image: url('https://example.com/minecraft_background.png'); /* Link do tła Minecraft */
+            background-size: cover;
+            background-position: center;
+            animation: animateBackground 10s infinite alternate;
+        }
+
+        @keyframes animateBackground {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        header img {
+            display: none; /* Ukrycie obrazu logo */
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #222;
+            padding: 15px 0;
+        }
+
+        nav a {
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ff6600;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .container {
+            padding: 60px 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .game-info {
+            background-color: #f4f4f4;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-info h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .game-info p, .game-info ul {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        footer {
+            background-color: #111;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        footer a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffb300;
+        }
+
+        /* Twórcy */
+        .creators {
+            margin-top: 60px;
+            padding: 40px 20px;
+            text-align: center;
+            background-image: url('https://i.pinimg.com/originals/f7/19/65/f71965732082901a89adedcde2051bd7.gif'); /* Tło GIF dla sekcji Twórcy */
+            background-size: cover;
+            border-radius: 10px;
+            border-top: 5px solid #ff6600; /* Obramowanie u góry */
+        }
+
+        .creator-box {
+            display: inline-block;
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7); /* Przezroczysty biały, aby tekst był czytelniejszy */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Zmieniono szerokość, aby boxy miały tę samą wielkość */
+            text-align: left; /* Wyrównanie tekstu do lewej */
+            vertical-align: top; /* Ustawienie obrazka i tekstu na równi */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .creator-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .creator-box img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            vertical-align: middle; /* Ustawienie obrazu na środku w pionie */
+        }
+
+        .creator-box h3 {
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 10px;
+            display: inline-block;
+            vertical-align: middle; /* Ustawienie tekstu na środku w pionie */
+        }
+
+        .creator-box p {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        /* Sekcja Kontakt */
+        .contact-box {
+            background-color: #f4f4f4;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .contact-box p {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .contact-box a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .contact-box a:hover {
+            color: #ffb300;
+        }
+
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                padding: 10px 20px;
+                font-size: 1.1em;
+            }
+
+            .section-header {
+                font-size: 2em;
+            }
+
+            .creator-box {
+                width: 250px; /* Zmniejszenie boxa na mniejszych ekranach */
+            }
+
+            .creator-box img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .contact-box {
+                padding: 20px;
+            }
+
+            .contact-box h2 {
+                font-size: 1.8em;
+            }
+
+            .contact-box p {
+                font-size: 1em;
+            }
+        }
+
+        /* Wydarzenia */
+        .events {
+            margin-top: 60px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: gray;
+            margin-top: 20px;
+        }
+
+        .countdown.active {
+            font-size: 3em;
+            color: #ff6600;
+        }
+
+        .countdown-wrapper {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- Logo zostało usunięte, aby pasek zniknął -->
+</header>
+
+<nav>
+    <a href="#about">Igrzyska Śmierci</a>
+    <a href="#join">Nie możesz dołączyć?</a>
+    <a href="#rules">Zasady</a>
+    <a href="#contact">Kontakt</a>
+    <a href="#creators">Twórcy</a> <!-- Dodanie odnośnika do Twórców -->
+    <a href="#events">Wydarzenia</a> <!-- Dodanie odnośnika do sekcji "Wydarzenia" -->
+</nav>
+
+<div class="container" id="about">
+    <h2 class="section-header">Igrzyska Śmierci</h2>
+    <p>MamADHD oraz Szczurf prezentują nadchodzące Igrzyska Śmierci w Minecraft. Wejdź na nasz serwer Minecraft, gdzie stawisz czoła innym graczom w brutalnych wyzwaniach. Tylko jedna drużyna może przeżyć – czy jesteś gotowy na to wyzwanie?</p>
+</div>
+
+<div class="container game-info" id="join">
+    <h2>Nie możesz dołączyć?</h2>
+    <p>Gdy nie możesz dołączyć, skontaktuj się z nami od razu, gdy natkniesz się na ten błąd. Będziesz tam musiał wysłać:</p>
+    <ul>
+        <li>Zrzut ekranu zawierający komunikat, z którym wyrzucono cię z serwera,</li>
+        <li>Twój nick,</li>
+        <li>Wersję gry.</li>
+    </ul>
+    <p><strong>Pomagamy tylko, jeśli błąd występuje ze strony serwera.</strong></p>
+</div>
+
+<div class="container game-info" id="rules">
+    <h2>Zasady gry</h2>
+    <ul>
+        <li>Każdy na początku zostaje przydzielony w 3 osobowy dystrykt, gracze z dystryktu nie mogą się bić nawzajem, ani siebie zdradzać.</li>
+        <li>Każdego dnia o ustalonej godzinie zostanie otwarta struktura!!!</li>
+        <li>Zakaz cheat'owania i wykorzystywania niedopatrzeń w regulaminie.</li>
+        <li>Możliwe do stworzenia będą specjalne bronie (więcej informacji później).</li>
+        <li>Mapa wynosi 8000X8000 bloków.</li>
+        <li>Należy się słuchać organizatorów, szczególnie na początku.</li>
+        <li>Przez pierwsze 30 min pvp jest wyłączone, a gracze mają jedno dodatkowe życie.</li>
+        <li>Po pierwszych 30 minutach, każda śmierć równa się z banem.</li>
+        <li>Odrodzenie sojusznika będzie możliwe za pomocą księgi wskrzeszenia.</li>
+        <li>W przypadku użycia księgi, należy skontaktować się z administratorami, odrodzenie zostanie wykonane w przeciągu godziny.</li>
+        <li>Po pierwszych 30 minutach, spawn zostaje zamknięty, aż do 3h przed finałem.</li>
+        <li>Igrzyska trwają 3 dni w godzinach 10-24.</li>
+        <li>Nether zostanie otwarty 2 dnia o godz. 13.</li>
+    </ul>
+    <p><strong>Możliwe zmiany w regulaminie: Regulamin może być modyfikowany przez organizatorów w trakcie trwania Igrzysk. Będą one ogłaszane i komunikowane uczestnikom w odpowiednich momentach.</strong></p>
+</div>
+
+<div class="container contact-box" id="contact">
+    <h2 class="section-header">Kontakt</h2>
+    <p>Masz pytania? Skontaktuj się z nami na Discordzie: <strong><a href="https://discord.com/users/rainbowsausage38" target="_blank">rainbowsausage38</a></strong></p>
+</div>
+
+<!-- Wydarzenia -->
+<div class="events" id="events">
+    <h2 class="section-header">Wydarzenia</h2>
+    <div>
+        <h3>Otwarcie serwera</h3>
+        <div id="countdown1" class="countdown active"></div>
+    </div>
+    <div>
+        <h3>Włączenie PVP</h3>
+        <div id="countdown2" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Rozpoczęcie dnia drugiego</h3>
+        <div id="countdown3" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Otwarcie Netheru</h3>
+        <div id="countdown4" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Zakonczenie dnia drugiego</h3>
+        <div id="countdown5" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Rozpoczęcie dnia trzeciego</h3>
+        <div id="countdown6" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Otwarcie Spawna</h3>
+        <div id="countdown7" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Deathmatch</h3>
+        <div id="countdown8" class="countdown"></div>
+    </div>
+    <div>
+        <h3>Wyniki</h3>
+        <div id="countdown9" class="countdown"></div>
+    </div>
+</div>
+
+<!-- Twórcy -->
+<div class="creators" id="creators">
+    <h2 class="section-header">Twórcy</h2>
+    <div class="creator-box">
+        <img class="skin-2d" src="https://s.namemc.com/2d/skin/face.png?id=c3aaebb3aadcd10c&amp;scale=4" width="80" height="80" alt="MamADHD Skin">
+        <h3>MamADHD</h3>
+        <p>Technik oraz udziela pomocy graczom. Igrzyska Śmierci są jego czwartym projektem w Minecraft. Jednym z jego najbardziej znanych projektów jest CHICKENSMP 6. Skonstruował tą stronę internetową oraz przyczynił się do powstania serwera w Minecrafcie ze strony technicznej.</p>
+    </div>
+    <div class="creator-box">
+        <img class="skin-2d" src="https://s.namemc.com/2d/skin/face.png?id=073f0f77d2ba60a7&amp;scale=4" width="80" height="80" alt="Szczurf Skin">
+        <h3>Szczurf</h3>
+        <p>Szczurf to pomysłodawca oraz organizator "Igrzysk Śmierci". Odpowiada za całą koncepcję oraz rozwój serwera, tworząc unikalną atmosferę i zasady. Jako pomysłodawca, Szczurf nie tylko zaplanował mechanikę gry, ale także dba o jej ciągły rozwój, tak by gracze zawsze mieli coś nowego do odkrycia.</p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Igrzyska Śmierci Strona internetowa</p>
+</footer>
+
+<!-- JavaScript for countdown -->
+<script>
+    // Daty dla wszystkich wydarzeń
+    const events = [
+        new Date('2025-08-24T10:00:00').getTime(), // Otwarcie serwera
+        new Date('2025-08-24T10:30:00').getTime(), // Włączenie PVP
+        new Date('2025-08-25T10:00:00').getTime(), // Rozpoczęcie dnia drugiego
+        new Date('2025-08-25T13:00:00').getTime(), // Otwarcie Netheru
+        new Date('2025-08-25T23:00:00').getTime(), // Zakonczenie dnia drugiego
+        new Date('2025-08-26T10:00:00').getTime(), // Rozpoczęcie dnia trzeciego
+        new Date('2025-08-26T15:00:00').getTime(), // Otwarcie Spawna
+        new Date('2025-08-26T18:00:00').getTime(), // Deathmatch
+        new Date('2025-08-26T18:15:00').getTime()  // Wyniki
+    ];
+
+    // Funkcja aktualizująca liczniki
+    function updateCountdown() {
+        let now = new Date().getTime();
+        let closestEventIndex = -1;
+
+        events.forEach((eventTime, index) => {
+            let distance = eventTime - now;
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            let countdownId = `countdown${index + 1}`;
+            document.getElementById(countdownId).innerHTML = `${days} DNI ${hours} GODZINY ${minutes} MINUTY ${seconds} SEKUNDY`;
+
+            // Znalezienie najbliższego wydarzenia
+            if (distance > 0 && (closestEventIndex === -1 || events[closestEventIndex] > distance)) {
+                closestEventIndex = index;
+            }
+
+            // Jeśli czas minął, zmień kolor na szary
+            if (distance < 0) {
+                document.getElementById(countdownId).classList.remove('active');
+                document.getElementById(countdownId).classList.add('inactive');
+                document.getElementById(countdownId).innerHTML = "Zakończono";
+            }
+        });
+
+        // Zmieniamy kolor i rozmiar najbliższego wydarzenia
+        if (closestEventIndex !== -1) {
+            let closestCountdownId = `countdown${closestEventIndex + 1}`;
+            document.getElementById(closestCountdownId).classList.add('active');
+        }
+    }
+
+    // Zaktualizuj licznik co sekundę
+    setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
